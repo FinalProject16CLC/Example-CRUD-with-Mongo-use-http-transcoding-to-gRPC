@@ -1,0 +1,9 @@
+syntax = "proto3";
+package user;
+
+// Entity message type for responding
+message User {
+  string id = 1;
+  string name = 2;
+  string role = 3;
+}
