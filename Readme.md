@@ -2,11 +2,38 @@
 ## Run this command line
 go get
 
-##-----RUN SERVER-------------------------##
-## Run server gRPC
-go run server/*.go
-## Run server http 
-go run gateway/main.go
+## Install tools
+
+Install dep tool: https://golang.github.io/dep/docs/installation.html  
+Install MongoDB and make sure it's running on localhost:27017
+
+## Make sure all the dependencies is in sync
+
+`dep status` && `dep ensure`
+
+## Generate gRPC stub
+- Generating client and server code
+
+  protoc -I/usr/local/include -I. \
+  -I$GOPATH/src \
+  -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+  --go_out=Mgoogle/api/annotations.proto=github.com/gengo/grpc-gateway/third_party/googleapis/google/api,plugins=grpc:. \
+  protos/entity.proto
+
+- Generate reverse-proxy for your RESTful API:
+
+  protoc -I/usr/local/include -I. \
+  -I$GOPATH/src \
+  -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+  --grpc-gateway_out=logtostderr=true:. \
+  protos/entity.proto
+
+## Start Server
+
+`go run server/*.go`
+`go run gateway/main.go`
+
+## Example API Calls
 
 ##-------Some example tests----------------##
 ## List entities
