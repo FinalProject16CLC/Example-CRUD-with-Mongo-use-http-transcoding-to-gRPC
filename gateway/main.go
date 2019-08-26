@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	pb "Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
+	pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
 
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"

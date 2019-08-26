@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/gengo/grpc-gateway"
+  packages = ["third_party/googleapis/google/api"]
+  revision = "a8f25bd1ab549f8b87afd48aa9181221e9d439bb"
+  version = "v1.1.0"
+
+[[projects]]
   name = "github.com/go-stack/stack"
   packages = ["."]
   revision = "2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a"
@@ -82,7 +88,7 @@
 [[projects]]
   branch = "master"
   name = "google.golang.org/genproto"
-  packages = ["googleapis/api/annotations","googleapis/api/httpbody","googleapis/rpc/status","protobuf/field_mask"]
+  packages = ["googleapis/api/httpbody","googleapis/rpc/status","protobuf/field_mask"]
   revision = "fa694d86fc64c7654a660f8908de4e879866748d"
 
 [[projects]]
@@ -94,6 +100,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f011069710c0016d7e39396bc050ddbb653ef4ffd9bf3d69ab890a3ac23a7a5e"
+  inputs-digest = "b3b4de4dbcc6500fbb8f0a9bc816c7f7b5e83719e5a0d736e84e8dc203b649af"
   solver-name = "gps-cdcl"
   solver-version = 1
