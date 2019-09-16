@@ -2,10 +2,10 @@
 
 
 [[projects]]
-  name = "github.com/gengo/grpc-gateway"
-  packages = ["third_party/googleapis/google/api"]
-  revision = "a8f25bd1ab549f8b87afd48aa9181221e9d439bb"
-  version = "v1.1.0"
+  name = "github.com/envoyproxy/protoc-gen-validate"
+  packages = [".","gogoproto","module","templates","templates/cc","templates/go","templates/gogo","templates/goshared","templates/java","templates/shared","validate"]
+  revision = "9eff07ddfcb4001aa1aab280648153f46e1a8ddc"
+  version = "v0.1.0"
 
 [[projects]]
   name = "github.com/go-stack/stack"
@@ -26,16 +26,34 @@
   version = "v1.3.2"
 
 [[projects]]
+  branch = "master"
   name = "github.com/golang/snappy"
   packages = ["."]
-  revision = "2a8bb927dd31d8daada140a5d09578521ce5c36a"
-  version = "v0.0.1"
+  revision = "ff6b7dc882cf4cfba7ee0b9f7dcc1ac096c554aa"
 
 [[projects]]
   name = "github.com/grpc-ecosystem/grpc-gateway"
   packages = ["internal","runtime","utilities"]
   revision = "fd2d159495beeea56e2b747d3d4b68299a81210c"
   version = "v1.9.6"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/iancoleman/strcase"
+  packages = ["."]
+  revision = "e506e3ef73653e84c592ba44aab577a46678f68c"
+
+[[projects]]
+  name = "github.com/lyft/protoc-gen-star"
+  packages = [".","lang/go"]
+  revision = "6c0470b785d07d39f59cd434f9c0ce0682b5c4aa"
+  version = "v0.4.11"
+
+[[projects]]
+  name = "github.com/spf13/afero"
+  packages = [".","mem"]
+  revision = "588a75ec4f32903aa5e39a2619ba6a4631e28424"
+  version = "v1.2.2"
 
 [[projects]]
   branch = "master"
@@ -100,6 +118,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "24566be0e144a72c4e6c60b21b02943da64f04da6f7ad24d2546b01467fadbf8"
+  inputs-digest = "be907cc00e6d9d13af6ed1467803941ef3f1bf02adce2d38f6553ec680b66a65"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -2,6 +2,7 @@ syntax = "proto3";
 package entity;
 
 import "google/api/annotations.proto";
+import "validate/validate.proto";
 
 // The entity service definition with http transcoding
 service EntityService {
@@ -37,7 +38,20 @@ service EntityService {
 
 // Entity message type for responding
 message Entity {
-  string id = 1;
+  string id = 1 ;
+  string name = 2;
+  string description = 3;
+  string url = 4;
+}
+
+message CreateEntityBody {
+  string name = 1 [(validate.rules).string = {min_len = 3; max_len = 125}];
+  string description = 2;
+  string url = 3 [(validate.rules).message.required = true];
+}
+
+message UpdateEntityBody {
+  string id = 1[(validate.rules).string.uuid = true];
   string name = 2;
   string description = 3;
   string url = 4;
@@ -45,7 +59,7 @@ message Entity {
 
 // Defintion of request and respone for each services
 message CreateEntityReq {
-  Entity entity = 1;
+  CreateEntityBody entity = 1;
 }
 
 message CreateEntityRes {
@@ -53,7 +67,7 @@ message CreateEntityRes {
 }
 
 message UpdateEntityReq {
-  Entity entity = 1;
+  UpdateEntityBody entity = 1;
 }
 
 message UpdateEntityRes {
@@ -61,7 +75,7 @@ message UpdateEntityRes {
 }
 
 message ReadEntityReq {
-  string id = 1;
+  string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message ReadEntityRes {
@@ -69,7 +83,7 @@ message ReadEntityRes {
 }
 
 message DeleteEntityReq {
-  string id = 1;
+  string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message DeleteEntityRes {
