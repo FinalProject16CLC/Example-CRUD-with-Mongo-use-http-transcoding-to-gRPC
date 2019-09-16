@@ -1,0 +1,21 @@
+version: "3"
+services:
+  proxy:
+    image: envoyproxy/envoy
+    ports:
+      - 8080:51051
+    volumes:
+      - ./proto.pb:/data/proto.pb
+      - ./envoy-config.yml:/etc/envoy/envoy.yaml
+    depends_on:
+      - grpc_app
+    environment:
+      - GRPC_VERBOSITY=debug
+  grpc_app:
+    build: .
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3322:3322
+    environment:
+      - GRPC_VERBOSITY=debug
