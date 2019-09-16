@@ -45,13 +45,13 @@ message Entity {
 }
 
 message CreateEntityBody {
-  string name = 1 [(validate.rules).string = {min_len = 3; max_len = 125}];
+  string name = 1 [(validate.rules).string = {min_len: 3; max_len: 125}];
   string description = 2;
-  string url = 3 [(validate.rules).message.required = true];
+  string url = 3 [(validate.rules).string.min_len= 1];
 }
 
 message UpdateEntityBody {
-  string id = 1[(validate.rules).string.uuid = true];
+  string id = 1 [(validate.rules).string.min_len= 1];
   string name = 2;
   string description = 3;
   string url = 4;
@@ -75,7 +75,7 @@ message UpdateEntityRes {
 }
 
 message ReadEntityReq {
-  string id = 1 [(validate.rules).string.uuid = true];
+  string id = 1 [(validate.rules).string.min_len= 1];
 }
 
 message ReadEntityRes {
@@ -83,7 +83,7 @@ message ReadEntityRes {
 }
 
 message DeleteEntityReq {
-  string id = 1 [(validate.rules).string.uuid = true];
+  string id = 1 [(validate.rules).string.min_len= 1];
 }
 
 message DeleteEntityRes {
