@@ -6,16 +6,29 @@ services:
       - 8080:51051
     volumes:
       - ./proto.pb:/data/proto.pb
-      - ./envoy-config.yml:/etc/envoy/envoy.yaml
+      - ./envoy-config.yaml:/etc/envoy/envoy.yaml
     depends_on:
       - grpc_app
     environment:
       - GRPC_VERBOSITY=debug
+      
   grpc_app:
     build: .
     volumes:
-      - ./src:/app/src
+      - ./server:/app/src/server
+    depends_on: 
+      - mongo
     ports:
-      - 3322:3322
+      - 51051:51051
     environment:
+      - DB_HOST=mongodb://mongo:27017
       - GRPC_VERBOSITY=debug
+  mongo:
+    image: "mongo:4.2.1"
+    volumes:
+      - "mongo:/data/db"
+    ports:
+      - "27100:27017"
+
+volumes:
+  mongo:

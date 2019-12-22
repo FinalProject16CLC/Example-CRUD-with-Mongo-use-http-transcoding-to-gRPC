@@ -1,6 +1,7 @@
 .DS_Store
 .vscode/
 .idea/
+bin/
 
 entity.pb.go
 entity.pb.gw.go
