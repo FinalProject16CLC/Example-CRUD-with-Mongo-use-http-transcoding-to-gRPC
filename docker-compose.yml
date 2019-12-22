@@ -6,7 +6,7 @@ services:
       - 8080:51051
     volumes:
       - ./proto.pb:/data/proto.pb
-      - ./envoy-config.yaml:/etc/envoy/envoy.yaml
+      - ./envoy-proxy.yaml:/etc/envoy/envoy.yaml
     depends_on:
       - grpc_app
     environment:

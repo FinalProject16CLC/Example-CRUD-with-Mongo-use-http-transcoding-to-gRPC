@@ -5,3 +5,4 @@ bin/
 
 entity.pb.go
 entity.pb.gw.go
+*.env
