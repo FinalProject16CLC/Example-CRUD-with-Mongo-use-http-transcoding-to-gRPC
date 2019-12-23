@@ -3,6 +3,5 @@
 .idea/
 bin/
 
-entity.pb.go
-entity.pb.gw.go
+*.pb*
 *.env
