@@ -43,7 +43,7 @@ or you can use make file:
 
 ## Update entity
 
-  `curl -X PUT 'http://localhost:8080/entities' -d '{"id":"5d11e8ee9dadaf6eef8599b9","name":"Phuc qua dep trai","description":"Kha la banh","url":"phucdeptrai.com.vn"}'`
+`curl -X PUT 'http://localhost:8080/entities' -d '{"id":"5dff0ab0ac327677d38754dd","name":"Phuc dep trai vai","description":"Qua la banh","url":"phuchotboy.com.vn"}'`
 
 ## Delete entity
 
