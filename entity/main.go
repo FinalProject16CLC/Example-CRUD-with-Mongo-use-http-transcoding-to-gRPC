@@ -11,9 +11,9 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/joho/godotenv"
-	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/models"
-	pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
-	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/services"
+	entity_models "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/entity/models"
+	entity_services "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/entity/services"
+	entity_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/entity"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
@@ -41,9 +41,9 @@ func main() {
 	// Create new gRPC server with (blank) options
 	s := grpc.NewServer(opts...)
 	// Create EntityService type
-	srv := &services.EntityServiceServer{}
+	srv := &entity_services.EntityServiceServer{}
 	// Register the service with the server
-	pb.RegisterEntityServiceServer(s, srv)
+	entity_pb.RegisterEntityServiceServer(s, srv)
 
 	// Initialize MongoDb client
 	fmt.Println("Connecting to MongoDB...")
@@ -68,7 +68,7 @@ func main() {
 		fmt.Println("Connected to Mongodb")
 	}
 	// Bind our collection to our global variable for use in other methods
-	srv.EntityCollection = models.NewEntityCollection(db)
+	srv.EntityCollection = entity_models.NewEntityCollection(db)
 
 	// Start the server in a child routine
 	go func() {

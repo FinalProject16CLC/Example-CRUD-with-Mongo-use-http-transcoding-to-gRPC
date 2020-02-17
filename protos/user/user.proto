@@ -1,0 +1,58 @@
+syntax = "proto3";
+package user;
+
+import "google/api/annotations.proto";
+
+service UserService {
+  rpc LogIn(LogInReq) returns (LogInRes) {
+    option (google.api.http) = {
+      post: "/login"
+      body: "user"
+    };
+  }
+
+  rpc SignUp(SignUpReq) returns (SignUpRes) {
+    option (google.api.http) = {
+      post: "/signup"
+      body: "user"
+    };
+  }
+
+  rpc LogOut(LogOutReq) returns (LogOutRes) {
+    option (google.api.http) = {
+      post: "/logout"
+    };
+  }
+}
+
+message User {
+  string user_name = 2;
+  string password = 4;
+}
+
+message LogInReq {
+  User user =1;
+}
+
+message LogInRes {
+  string id = 1;
+  bool success = 2;
+}
+
+message SignUpReq {
+  User user =1;
+}
+
+message SignUpRes {
+  string id = 1;
+  bool success = 2;
+  string token = 3;
+}
+
+message LogOutReq {
+  string id = 1;
+}
+
+message LogOutRes {
+  bool success = 2;
+}

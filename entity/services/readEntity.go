@@ -1,11 +1,11 @@
-package services
+package entity_services
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/models"
-	pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
+	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/entity/models"
+	entity_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/entity"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -14,7 +14,7 @@ import (
 )
 
 // ReadEntity is a gRPC function to get an entity in MongoDB
-func (s *EntityServiceServer) ReadEntity(ctx context.Context, req *pb.ReadEntityReq) (*pb.ReadEntityRes, error) {
+func (s *EntityServiceServer) ReadEntity(ctx context.Context, req *entity_pb.ReadEntityReq) (*entity_pb.ReadEntityRes, error) {
 	// convert string id (from proto) to mongoDB ObjectId
 	oid, err := primitive.ObjectIDFromHex(req.GetId())
 	if err != nil {
@@ -23,14 +23,14 @@ func (s *EntityServiceServer) ReadEntity(ctx context.Context, req *pb.ReadEntity
 
 	result := s.EntityCollection.FindOne(ctx, bson.M{"_id": oid})
 	// Create an empty EntityItem to write our decode result to
-	data := &models.EntityItem{}
+	data := &entity_models.EntityItem{}
 	// decode and write to data
 	if err := result.Decode(&data); err != nil {
 		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Could not find Entity with Object Id %s: %v", req.GetId(), err))
 	}
 	// Cast to ReadEntityRes type
-	response := &pb.ReadEntityRes{
-		Entity: &pb.Entity{
+	response := &entity_pb.ReadEntityRes{
+		Entity: &entity_pb.Entity{
 			Id:          oid.Hex(),
 			Name:        data.Name,
 			Description: data.Description,

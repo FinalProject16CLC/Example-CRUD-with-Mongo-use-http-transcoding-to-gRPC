@@ -8,11 +8,11 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/joho/godotenv"
-	pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
-
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/joho/godotenv"
+	entity_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/entity"
+	user_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/user"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -50,9 +50,15 @@ func RunEndPoint(address string, opts ...runtime.ServeMuxOption) error {
 	dialOpts := []grpc.DialOption{grpc.WithInsecure()}
 
 	err := godotenv.Load()
-	entityEndpoint := flag.String("entity_endpoint", os.Getenv("SERVER_HOST"), "endpoint of EntityService")
+	entityEndpoint := flag.String("entity_endpoint", os.Getenv("ENTITY_SERVER_HOST"), "endpoint of EntityService")
+	userEndpoint := flag.String("user_endpoint", os.Getenv("USER_SERVER_HOST"), "endpoint of UserService")
 
-	err = pb.RegisterEntityServiceHandlerFromEndpoint(ctx, mux, *entityEndpoint, dialOpts)
+	err = entity_pb.RegisterEntityServiceHandlerFromEndpoint(ctx, mux, *entityEndpoint, dialOpts)
+	if err != nil {
+		return err
+	}
+
+	err = user_pb.RegisterUserServiceHandlerFromEndpoint(ctx, mux, *userEndpoint, dialOpts)
 	if err != nil {
 		return err
 	}
