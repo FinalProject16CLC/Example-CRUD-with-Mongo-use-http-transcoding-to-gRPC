@@ -1,3 +1,5 @@
+# ENTITY API
+
 ### List entities
 GET http://localhost:8080/entities
 
@@ -26,3 +28,31 @@ Content-Type: application/json
 
 ### Delete entity
 DELETE  http://localhost:8080/entities/5d12ebf18b61eb310189281f
+
+# USER API
+
+### Sign up
+POST http://localhost:8080/signup
+Content-Type: application/json
+
+{
+  "user_name": "phucdeptrai",
+  "password": "123456"
+}
+
+### Log in
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "user_name": "phucdeptrai",
+  "password": "123456"
+}
+
+### Log out
+POST http://localhost:8080/logout
+Content-Type: application/json
+
+{
+  "id" : "5e685c6a168de9eac88525e3"
+}

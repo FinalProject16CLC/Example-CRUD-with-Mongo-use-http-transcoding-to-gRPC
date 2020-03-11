@@ -2,27 +2,29 @@ package user_services
 
 import (
 	"context"
+	"fmt"
+	"log"
 
 	user_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/user"
 	user_models "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/user/models"
+	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/user/utils"
+	"go.mongodb.org/mongo-driver/mongo"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func (s *UserServiceServer) LogIn(ctx context.Context, req *user_pb.LogInReq) (*user_pb.LogInRes, error) {
 	user := req.GetUser()
 
-	data := &user_models.UserItem{
-		UserName: user.GetUserName(),
-		Password: user.GetPassword(),
-	}
-
-	result := s.UserCollection.FindOne(context.Background(), bson.M{"user_name": data.UserName})
-	user = user_models.User{}
-	if err := result.Decode(&user); err != nil {
-		h.AppLog.Info("Error when sign in by email ", err)
+	result := s.UserCollection.FindOne(ctx, bson.M{"user_name": user.GetUserName()})
+	data := &user_models.UserItem{}
+	if err := result.Decode(&data); err != nil {
+		log.Println("Error when log in", err)
 		if err == mongo.ErrNoDocuments {
 			return nil, status.Errorf(
-				codes.Unauthorized, 
-				mt.Sprintf("Internal error: %v", err),
+				codes.Unauthenticated,
+				fmt.Sprintf("Invalid email or password."),
 			)
 		}
 		return nil, status.Errorf(
@@ -31,5 +33,14 @@ func (s *UserServiceServer) LogIn(ctx context.Context, req *user_pb.LogInReq) (*
 		)
 	}
 
-	return &user_pb.LogInRes{User: user}, nil
+	if ok := utils.CheckPasswordHash(user.Password, data.Password); !ok {
+		return nil, status.Errorf(
+			codes.Unauthenticated,
+			fmt.Sprintf("Password is invalid."),
+		)
+	}
+
+	id := data.ID.Hex()
+
+	return &user_pb.LogInRes{Id: id, Success: true}, nil
 }

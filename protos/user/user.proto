@@ -21,6 +21,7 @@ service UserService {
   rpc LogOut(LogOutReq) returns (LogOutRes) {
     option (google.api.http) = {
       post: "/logout"
+      body: "user_id"
     };
   }
 }
@@ -28,6 +29,10 @@ service UserService {
 message User {
   string user_name = 2;
   string password = 4;
+}
+
+message UserID {
+  string id =1;
 }
 
 message LogInReq {
@@ -46,11 +51,10 @@ message SignUpReq {
 message SignUpRes {
   string id = 1;
   bool success = 2;
-  string token = 3;
 }
 
 message LogOutReq {
-  string id = 1;
+  UserID user_id = 1;
 }
 
 message LogOutRes {

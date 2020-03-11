@@ -1,4 +1,4 @@
-build:
+pb:
 	protoc -I/usr/local/include -I. \
 		-Ivendor \
 		-Ivendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
