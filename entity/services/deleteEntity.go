@@ -1,10 +1,10 @@
-package services
+package entity_services
 
 import (
 	"context"
 	"fmt"
 
-	pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
+	entity_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/entity"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -12,7 +12,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *EntityServiceServer) DeleteEntity(ctx context.Context, req *pb.DeleteEntityReq) (*pb.DeleteEntityRes, error) {
+// DeleteEntity is a gRPC function to delete an entity in MongoDB
+func (s *EntityServiceServer) DeleteEntity(ctx context.Context, req *entity_pb.DeleteEntityReq) (*entity_pb.DeleteEntityRes, error) {
 	// Get the ID (string) from the request message and convert it to an Object ID
 	oid, err := primitive.ObjectIDFromHex(req.GetId())
 	// Check for errors
@@ -28,7 +29,7 @@ func (s *EntityServiceServer) DeleteEntity(ctx context.Context, req *pb.DeleteEn
 		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Could not find/delete Entity with id %s: %v", req.GetId(), err))
 	}
 	// Return response with success: true if no error is thrown (and thus document is removed)
-	return &pb.DeleteEntityRes{
+	return &entity_pb.DeleteEntityRes{
 		Success: true,
 	}, nil
 }

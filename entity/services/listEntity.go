@@ -1,20 +1,21 @@
-package services
+package entity_services
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/models"
-	pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
+	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/entity/models"
+	entity_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/entity"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (s *EntityServiceServer) ListEntities(req *pb.ListEntitiesReq, stream pb.EntityService_ListEntitiesServer) error {
+// ListEntities is a gRPC function to list all entities in MongoDB
+func (s *EntityServiceServer) ListEntities(req *entity_pb.ListEntitiesReq, stream entity_pb.EntityService_ListEntitiesServer) error {
 	// Initiate a EntityItem type to write decoded data to
-	data := &models.EntityItem{}
+	data := &entity_models.EntityItem{}
 	// collection.Find returns a cursor for our (empty) query
 	cursor, err := s.EntityCollection.Find(context.Background(), bson.M{})
 	if cursor == nil {
@@ -34,7 +35,7 @@ func (s *EntityServiceServer) ListEntities(req *pb.ListEntitiesReq, stream pb.En
 			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
 		}
 		// If no error is found send Entity over stream
-		stream.Send(&pb.ListEntitiesRes{Entity: &pb.Entity{
+		stream.Send(&entity_pb.ListEntitiesRes{Entity: &entity_pb.Entity{
 			Id:          data.ID.Hex(),
 			Name:        data.Name,
 			Description: data.Description,

@@ -5,3 +5,4 @@ bin/
 
 *.pb*
 *.env
+*.http

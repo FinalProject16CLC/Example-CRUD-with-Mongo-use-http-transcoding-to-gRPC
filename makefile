@@ -1,4 +1,4 @@
-build:
+pb:
 	protoc -I/usr/local/include -I. \
 		-Ivendor \
 		-Igoogleapis \

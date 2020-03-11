@@ -1,11 +1,11 @@
-package services
+package entity_services
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/models"
-	pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos"
+	"github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/entity/models"
+	entity_pb "github.com/trinhdaiphuc/Example-CRUD-with-Mongo-use-http-transcoding-to-gRPC/protos/entity"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -14,7 +14,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *EntityServiceServer) UpdateEntity(ctx context.Context, req *pb.UpdateEntityReq) (*pb.UpdateEntityRes, error) {
+// UpdateEntity is a gRPC function to update an entity in MongoDB
+func (s *EntityServiceServer) UpdateEntity(ctx context.Context, req *entity_pb.UpdateEntityReq) (*entity_pb.UpdateEntityRes, error) {
 	// Get the Entity data from the request
 	Entity := req.GetEntity()
 
@@ -42,7 +43,7 @@ func (s *EntityServiceServer) UpdateEntity(ctx context.Context, req *pb.UpdateEn
 	result := s.EntityCollection.FindOneAndUpdate(ctx, filter, bson.M{"$set": update}, options.FindOneAndUpdate().SetReturnDocument(1))
 
 	// Decode result and write it to 'decoded'
-	decoded := &models.EntityItem{}
+	decoded := &entity_models.EntityItem{}
 	err = result.Decode(&decoded)
 	if err != nil {
 		return nil, status.Errorf(
@@ -50,8 +51,8 @@ func (s *EntityServiceServer) UpdateEntity(ctx context.Context, req *pb.UpdateEn
 			fmt.Sprintf("Could not find Entity with supplied ID: %v", err),
 		)
 	}
-	return &pb.UpdateEntityRes{
-		Entity: &pb.Entity{
+	return &entity_pb.UpdateEntityRes{
+		Entity: &entity_pb.Entity{
 			Id:          decoded.ID.Hex(),
 			Name:        decoded.Name,
 			Description: decoded.Description,

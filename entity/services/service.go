@@ -1,4 +1,4 @@
-package services
+package entity_services
 
 import "go.mongodb.org/mongo-driver/mongo"
 
